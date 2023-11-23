@@ -1,8 +1,15 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Providers } from './providers';
+import {
+  Box,
+  Flex,
+} from '@chakra-ui/react';
+import Sidebar from '@/components/Sidebar';
+import Navigation from '@/components/Navigation';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +23,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
-}
+      <body className={inter.className}>
+        <Providers>
+          <Navigation />
+          <Flex>
+            <Sidebar />
+            <Box
+              position={{ base: 'absolute', md: 'unset' }}
+              w={{ base: 'calc(100% - 3.8rem)', md: '100%' }}
+              ml={{ base: '3.8rem', md: 0 }}
+            >
+              {children}
+            </Box>
+          </Flex>
+        </Providers>
+      </body>
+    </html >
+  );
+};
