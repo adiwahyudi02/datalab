@@ -8,7 +8,9 @@ import {
   DrawerHeader,
   Heading,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
+import DeleteUserAlertDialog from './DeleteUserAlertDialog';
 
 interface IUserDetailDrawerProps {
   isOpenDrawer: boolean;
@@ -19,6 +21,12 @@ export default function UserDetailDrawer({
   isOpenDrawer,
   onCloseDrawer,
 }: IUserDetailDrawerProps) {
+  const {
+    isOpen: isOpenAlertDialog,
+    onOpen: onOpenAlertDialog,
+    onClose: onCloseAlertDialog,
+  } = useDisclosure();
+
   return (
     <>
       <Drawer
@@ -53,12 +61,17 @@ export default function UserDetailDrawer({
             </Button>
             <Button
               colorScheme="red"
+              onClick={onOpenAlertDialog}
             >
               Delete User
             </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      <DeleteUserAlertDialog
+        isOpenAlertDialog={isOpenAlertDialog}
+        onCloseAlertDialog={onCloseAlertDialog}
+      />
     </>
   );
 }
