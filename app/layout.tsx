@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Providers } from './providers';
+import { Provider as ChakraProvider } from '@/providers/ChakraProvider';
 import {
   Box,
   Flex,
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
+        <ChakraProvider>
           <Navigation />
           <Flex>
             <Sidebar />
@@ -36,7 +36,7 @@ export default function RootLayout({
               {children}
             </Box>
           </Flex>
-        </Providers>
+        </ChakraProvider>
       </body>
     </html >
   );
