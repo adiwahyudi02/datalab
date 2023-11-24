@@ -12,12 +12,16 @@ import { useRef } from 'react';
 
 interface IDeleteUserAlertDialogProps {
   isOpenAlertDialog: boolean;
+  isDeletting: boolean;
   onCloseAlertDialog: () => void;
+  onDelete: () => void;
 };
 
 export default function DeleteUserAlertDialog({
   isOpenAlertDialog,
   onCloseAlertDialog,
+  onDelete,
+  isDeletting,
 }: IDeleteUserAlertDialogProps) {
 
   const cancelAlertDialogRef = useRef(null);
@@ -56,7 +60,9 @@ export default function DeleteUserAlertDialog({
               size="sm"
               colorScheme="red"
               ml={3}
-              onClick={onCloseAlertDialog}
+              onClick={onDelete}
+              isLoading={isDeletting}
+              loadingText="Deletting"
             >
               Delete
             </Button>

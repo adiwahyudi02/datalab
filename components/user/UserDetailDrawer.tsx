@@ -13,8 +13,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import DeleteUserAlertDialog from './DeleteUserAlertDialog';
-import { useGetUser } from '@/api/user/queries';
+import { useDeleteUser, useGetUser } from '@/api/user/queries';
 import { snakeToTitleCase } from '@/utils/helpers/convertTextCase';
+import { useEffect } from 'react';
 
 interface IUserDetailDrawerProps {
   userId: string;
@@ -33,10 +34,34 @@ export default function UserDetailDrawer({
   } = useGetUser(userId);
 
   const {
+    mutate: mutateDeleteUser,
+    isPending: isLoadingDeleteUser,
+    isSuccess: isSuccessDeleteUser,
+  } = useDeleteUser();
+
+  const {
     isOpen: isOpenAlertDialog,
     onOpen: onOpenAlertDialog,
     onClose: onCloseAlertDialog,
   } = useDisclosure();
+
+  const handleDelete = () => {
+    if (user) {
+      mutateDeleteUser({
+        id: user?.id,
+        email: user?.email,
+        name: user?.name,
+      })
+    }
+  }
+
+  // close alert & drawer if delete user is successful
+  useEffect(() => {
+    if (isSuccessDeleteUser) {
+      onCloseAlertDialog();
+      onCloseDrawer();
+    };
+  }, [isSuccessDeleteUser])
 
   return (
     <>
@@ -90,6 +115,8 @@ export default function UserDetailDrawer({
       </Drawer>
       <DeleteUserAlertDialog
         isOpenAlertDialog={isOpenAlertDialog}
+        onDelete={handleDelete}
+        isDeletting={isLoadingDeleteUser}
         onCloseAlertDialog={onCloseAlertDialog}
       />
     </>
