@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUser, getUsers, postUser } from './services';
+import { deleteUser, getUser, getUsers, postUser } from './services';
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 
@@ -35,6 +35,38 @@ export const useRegisterUser = () => {
     onError: (error) => {
       if (error instanceof AxiosError) {
         // get error message to get email validation
+        toast({
+          title: error.response?.data.message,
+          status: 'error',
+        });
+      } else {
+        toast({
+          title: error.message,
+          status: 'error',
+        });
+      }
+    }
+  });
+};
+
+export const useDeleteUser = () => {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['users']
+      });
+
+      toast({
+        title: 'User Deleted',
+        status: 'success',
+      });
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
         toast({
           title: error.response?.data.message,
           status: 'error',
