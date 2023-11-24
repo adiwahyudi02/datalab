@@ -9,6 +9,7 @@ import { useToast } from '@chakra-ui/react';
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   const toast = useToast();
 
+  // Handle error globally for useQuery to prevent multiple toast errors
   const [client] = useState(new QueryClient({
     queryCache: new QueryCache({
       onError: (error) =>
