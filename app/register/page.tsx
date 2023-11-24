@@ -15,6 +15,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useRegisterUser } from '@/api/user/queries';
+import { useEffect } from 'react';
 
 interface IFormInput {
   name: string;
@@ -31,6 +33,8 @@ const FormLabelInvalid = {
 };
 
 export default function Register() {
+  const { mutate, isPending, isSuccess } = useRegisterUser();
+
   const {
     register,
     handleSubmit,
@@ -38,14 +42,20 @@ export default function Register() {
       errors,
       isSubmitting,
     },
+    reset,
   } = useForm<IFormInput>({
     resolver: yupResolver(schema),
     shouldFocusError: false,
   });
 
-  const onSubmit = (values: IFormInput) => {
-    // POST 
-  }
+  const onSubmit = async (values: IFormInput) => {
+    mutate(values);
+  };
+
+  // reset the form if registration is successful
+  useEffect(() => {
+    if (isSuccess) reset();
+  }, [isSuccess])
 
   return (
     <>
@@ -79,7 +89,7 @@ export default function Register() {
                 Email
               </FormLabel>
               <Input
-                type="email"
+                type="text"
                 {...register('email')}
               />
               <FormErrorMessage>
@@ -92,7 +102,7 @@ export default function Register() {
               <Button
                 type="submit"
                 colorScheme="blue"
-                isLoading={isSubmitting}
+                isLoading={isSubmitting || isPending}
                 loadingText="Submitting"
                 isDisabled={Object.keys(errors).length !== 0}
                 _disabled={{
