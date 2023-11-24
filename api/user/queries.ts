@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUsers, postUser } from './services';
+import { getUser, getUsers, postUser } from './services';
 import { useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 
@@ -7,6 +7,13 @@ export const useGetUsers = () => {
   return useQuery({
     queryKey: ['users'],
     queryFn: getUsers
+  });
+};
+
+export const useGetUser = (id: string) => {
+  return useQuery({
+    queryKey: ['user', id],
+    queryFn: () => getUser(id)
   });
 };
 

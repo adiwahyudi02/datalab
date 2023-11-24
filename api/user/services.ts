@@ -11,6 +11,11 @@ export const getUsers = async (): Promise<TUser[]> => {
   return users;
 };
 
+export const getUser = async (id: string): Promise<TUser> => {
+  const { data: { data: user } } = await fetcher.get(`/users/${id}`);
+  return user;
+};
+
 export const postUser = async (payload: TReqPostUser): Promise<TUser> => {
   const { data: { data: user } } = await fetcher.post('/users', payload);
   return user;
