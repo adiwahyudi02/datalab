@@ -59,7 +59,7 @@ export default function UserDetailDrawer({
 
           <DrawerBody>
             {user && Object.entries(user).map(([key, value]) => (
-              <Flex gap={1}>
+              <Flex key={key} gap={1}>
                 <Text w="40%">{snakeToTitleCase(key)}</Text>
                 <Text w="60%">: {value}</Text>
               </Flex>
