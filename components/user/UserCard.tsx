@@ -9,12 +9,15 @@ import {
 } from '@chakra-ui/react';
 
 interface IUserCardProps {
+  name: string;
+  email: string;
   onClickView: () => void;
 };
 
 export default function UserCard({
+  name,
+  email,
   onClickView,
-
 }: IUserCardProps) {
   return (
     <Card
@@ -31,9 +34,9 @@ export default function UserCard({
           justify="center"
           gap={3}
         >
-          <Heading size="lg">Monique Erdman</Heading>
+          <Heading size="lg">{name}</Heading>
           <Text fontSize="sm" color="gray.500">
-            jerrod14@yahoo.com
+            {email}
           </Text>
           <Divider w="60" borderColor="gray.400" />
           <Button
