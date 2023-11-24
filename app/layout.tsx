@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Provider as ChakraProvider } from '@/providers/ChakraProvider';
+import { Provider as QueryClientProvider } from '@/providers/QueryClientProvider';
 import {
   Box,
   Flex,
@@ -25,17 +26,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ChakraProvider>
-          <Navigation />
-          <Flex>
-            <Sidebar />
-            <Box
-              position={{ base: 'absolute', md: 'unset' }}
-              w={{ base: 'calc(100% - 3.8rem)', md: '100%' }}
-              ml={{ base: '3.8rem', md: 0 }}
-            >
-              {children}
-            </Box>
-          </Flex>
+          <QueryClientProvider>
+            <Navigation />
+            <Flex>
+              <Sidebar />
+              <Box
+                position={{ base: 'absolute', md: 'unset' }}
+                w={{ base: 'calc(100% - 3.8rem)', md: '100%' }}
+                ml={{ base: '3.8rem', md: 0 }}
+              >
+                {children}
+              </Box>
+            </Flex>
+          </QueryClientProvider>
         </ChakraProvider>
       </body>
     </html >
