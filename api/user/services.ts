@@ -1,7 +1,17 @@
 import { fetcher } from '@/utils/helpers/fetcher';
 import { TUser } from './types';
 
+type TReqPostUser = {
+  name: string;
+  email: string;
+};
+
 export const getUsers = async (): Promise<TUser[]> => {
   const { data: { data: users } } = await fetcher.get('/users');
   return users;
+};
+
+export const postUser = async (payload: TReqPostUser): Promise<TUser> => {
+  const { data: { data: user } } = await fetcher.post('/users', payload);
+  return user;
 };
