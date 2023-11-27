@@ -13,7 +13,7 @@ import { HiMenuAlt2, HiUsers } from 'react-icons/hi';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { FaUserPlus, FaSearch } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useSidebarCtx } from '@/contexts/SidebarContext';
 
 const menu = [
   {
@@ -40,29 +40,24 @@ const menu = [
 
 export default function Sidebar() {
   const pathName = usePathname();
-
   const {
-    value: isOpen,
-    setValue: setIsOpen,
-  } = useLocalStorage('sidebar', false);
-
-  const onToggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+    isOpen,
+    onToggleSidebar,
+    widthSidebar,
+  } = useSidebarCtx();
 
   return (
     <Box
       as="aside"
-      w="15rem"
-      h="calc(100vh - 3.5rem)"
+      w={widthSidebar.desktop}
+      minH="calc(100vh - 3.5rem)"
       bg="ghostwhite"
       boxShadow="gray 0.25rem 0 0.25rem -0.3rem"
       overflowX="hidden"
-      transition="0.3s"
       flexShrink={0}
       zIndex={10}
       {...(!isOpen) && {
-        w: '3.8rem'
+        w: widthSidebar.mobile,
       }}
     >
       <Button

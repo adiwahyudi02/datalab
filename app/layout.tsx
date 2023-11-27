@@ -4,11 +4,12 @@ import './globals.css';
 import { Provider as ChakraProvider } from '@/providers/ChakraProvider';
 import { Provider as QueryClientProvider } from '@/providers/QueryClientProvider';
 import {
-  Box,
   Flex,
 } from '@chakra-ui/react';
 import Sidebar from '@/components/Sidebar';
 import Navigation from '@/components/Navigation';
+import Main from '@/components/Main';
+import { SidebarProvider } from '@/contexts/SidebarContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,17 +28,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <ChakraProvider>
           <QueryClientProvider>
-            <Navigation />
-            <Flex>
-              <Sidebar />
-              <Box
-                position={{ base: 'absolute', md: 'unset' }}
-                w={{ base: 'calc(100% - 3.8rem)', md: '100%' }}
-                ml={{ base: '3.8rem', md: 0 }}
-              >
-                {children}
-              </Box>
-            </Flex>
+            <SidebarProvider>
+              <Navigation />
+              <Flex>
+                <Sidebar />
+                <Main>
+                  {children}
+                </Main>
+              </Flex>
+            </SidebarProvider>
           </QueryClientProvider>
         </ChakraProvider>
       </body>
