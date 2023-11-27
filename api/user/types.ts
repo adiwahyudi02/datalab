@@ -9,8 +9,8 @@ export type TUser = {
   login_ip: string;
   active_device_mac: string;
   notes: string;
-  age: 0;
-  referral_id: 0;
+  age: number;
+  referral_id: number;
   locale: string;
   favorite_music: string;
   phone_number: string;
