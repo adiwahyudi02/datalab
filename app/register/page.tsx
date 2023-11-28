@@ -76,6 +76,7 @@ export default function Register() {
               </FormLabel>
               <Input
                 type="text"
+                aria-label="name"
                 {...register('name')}
               />
               <FormErrorMessage>
@@ -90,6 +91,7 @@ export default function Register() {
               </FormLabel>
               <Input
                 type="text"
+                aria-label="email"
                 {...register('email')}
               />
               <FormErrorMessage>
@@ -112,6 +114,7 @@ export default function Register() {
                     bg: 'gray.300',
                   }
                 }}
+                role="submit"
               >
                 Submit User
               </Button>
