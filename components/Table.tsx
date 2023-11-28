@@ -3,6 +3,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useCallback,
 } from 'react';
 import {
   Cell,
@@ -11,7 +12,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useVirtualizer } from '@tanstack/react-virtual';
 import {
   Flex,
   Icon,
@@ -22,6 +22,7 @@ import {
   IoIosArrowDroprightCircle,
   IoIosArrowDropdownCircle,
 } from 'react-icons/io';
+import { useVirtual } from 'react-virtual';
 
 const borderTable = '1px solid lightgray';
 
@@ -64,7 +65,7 @@ const MeasurementText = <T extends object>({ cell, isResizing }: IMeasurementTex
     >
       <Flex
         align="center"
-        justify={cell.column.columnDef.meta?.style.textAlign}
+        style={{ justifyContent: cell.column.columnDef.meta?.style.textAlign }}
       >
         <span
           ref={textRef}
@@ -131,19 +132,19 @@ export function Table<T extends object>({
 
   const { rows } = table.getRowModel()
 
-  const rowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => tableContainerRef.current,
-    estimateSize: () => estimateSize,
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    estimateSize: useCallback(() => estimateSize, []),
     overscan,
-  })
+  });
 
-  const { getVirtualItems, getTotalSize } = rowVirtualizer
+  const { virtualItems, totalSize } = rowVirtualizer
 
-  const paddingTop = getVirtualItems().length > 0 ? getVirtualItems()?.[0]?.start || 0 : 0
+  const paddingTop = virtualItems.length > 0 ? virtualItems?.[0]?.start || 0 : 0
   const paddingBottom =
-    getVirtualItems().length > 0
-      ? getTotalSize() - (getVirtualItems()?.[getVirtualItems().length - 1]?.end || 0)
+    virtualItems.length > 0
+      ? totalSize - (virtualItems?.[virtualItems.length - 1]?.end || 0)
       : 0
 
   return (
@@ -158,7 +159,9 @@ export function Table<T extends object>({
     >
       {/* loading */}
       {isLoading ? (
-        <Stack p={2}>
+        <Stack
+          p={2}
+        >
           {Array.from(Array(10).keys()).map(id => (
             <Skeleton
               key={id}
@@ -167,7 +170,7 @@ export function Table<T extends object>({
           ))}
         </Stack>
       ) : (
-        <div style={{ height: `${getTotalSize()}px` }}>
+        <div style={{ height: `${totalSize}px` }}>
           <table
             style={{
               borderCollapse: 'collapse',
@@ -261,7 +264,7 @@ export function Table<T extends object>({
               )}
 
               {/* virtual list */}
-              {getVirtualItems().map(virtualRow => {
+              {virtualItems.map(virtualRow => {
                 const row = rows[virtualRow.index]
                 return (
                   <tr key={row.id}>
