@@ -42,6 +42,7 @@ export default function UserCard({
           <Button
             colorScheme="blue"
             onClick={onClickView}
+            role="view-detail-button"
           >
             View User Profile
           </Button>

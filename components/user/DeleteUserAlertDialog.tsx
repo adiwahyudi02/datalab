@@ -63,6 +63,7 @@ export default function DeleteUserAlertDialog({
               onClick={onDelete}
               isLoading={isDeletting}
               loadingText="Deletting"
+              role="delete-user-button"
             >
               Delete
             </Button>
