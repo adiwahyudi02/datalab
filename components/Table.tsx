@@ -66,6 +66,7 @@ const MeasurementText = <T extends object>({ cell, isResizing }: IMeasurementTex
       <Flex
         align="center"
         style={{ justifyContent: cell.column.columnDef.meta?.style.textAlign }}
+        data-testid={`td-align-text-${cell.column.id}`}
       >
         <span
           ref={textRef}
@@ -156,11 +157,13 @@ export function Table<T extends object>({
         overflow: 'auto',
         border: borderTable,
       }}
+      data-testid="table"
     >
       {/* loading */}
       {isLoading ? (
         <Stack
           p={2}
+          data-testid="loading-table"
         >
           {Array.from(Array(10).keys()).map(id => (
             <Skeleton
@@ -234,6 +237,7 @@ export function Table<T extends object>({
                               alignItems: 'center',
                               gap: '2px',
                             }}
+                            data-testid={`resizer-${header.id}`}
                           >
                             {Array.from(Array(2).keys()).map(id => (
                               <div
