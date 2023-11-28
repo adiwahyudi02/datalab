@@ -37,7 +37,10 @@ export default function SearchInput({
   };
 
   return (
-    <form onSubmit={handleSubmitSearch}>
+    <form
+      onSubmit={handleSubmitSearch}
+      data-testid="search-form"
+    >
       <Flex
         direction="column"
         gap="5"
@@ -60,6 +63,7 @@ export default function SearchInput({
               color="white"
               borderRadius="50%"
               onClick={handleReset}
+              role="reset-button"
             >
               <SmallCloseIcon boxSize={3} />
             </Flex>
