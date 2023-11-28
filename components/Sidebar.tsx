@@ -59,6 +59,7 @@ export default function Sidebar() {
       {...(!isOpen) && {
         w: widthSidebar.mobile,
       }}
+      role="sidebar"
     >
       <Button
         variant="unstyled"
@@ -73,6 +74,7 @@ export default function Sidebar() {
           transition: '0.3s',
         }}
         onClick={onToggleSidebar}
+        role="sidebar-button"
       >
         <Flex
           align="center"
